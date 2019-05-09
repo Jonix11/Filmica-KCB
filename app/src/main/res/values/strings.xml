@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Filmica</string>
+    <string name="label_add_watchlist">Add to watchlist</string>
+    <string name="label_genre">Genre</string>
+    <string name="labael_release_date">Release Date</string>
+    <string name="label_overview">Overview</string>
+</resources>
