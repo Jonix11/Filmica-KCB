@@ -78,64 +78,69 @@
         app:layout_constraintTop_toTopOf="@+id/guideline"
         app:srcCompat="@drawable/ic_movieroll" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonAdd">
 
-        <TextView
-            android:id="@+id/titleGenre"
-            style="@style/Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_genre"
-            android:drawableStart="@drawable/ic_genre"
-            android:text="@string/label_genre" />
-
-        <TextView
-            android:id="@+id/labelGenre"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Drama" />
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/titleGenre"
+                style="@style/Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_genre"
+                android:drawableLeft="@drawable/ic_genre"
+                android:text="@string/label_genre" />
+
+            <TextView
+                android:id="@+id/labelGenre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Drama" />
 
 
-        <TextView
-            android:id="@+id/titleRelease"
-            style="@style/Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:drawableStart="@drawable/ic_release"
-            android:drawableLeft="@drawable/ic_release"
-            android:text="@string/labael_release_date" />
+            <TextView
+                android:id="@+id/titleRelease"
+                style="@style/Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:drawableStart="@drawable/ic_release"
+                android:drawableLeft="@drawable/ic_release"
+                android:text="@string/labael_release_date" />
 
-        <TextView
-            android:id="@+id/labelDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="10-10-1999" />
+            <TextView
+                android:id="@+id/labelDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="10-10-1999" />
 
-        <TextView
-            android:id="@+id/titleDescription"
-            style="@style/Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:drawableLeft="@drawable/ic_overview"
-            android:drawableStart="@drawable/ic_overview"
-            android:text="@string/label_overview" />
+            <TextView
+                android:id="@+id/titleDescription"
+                style="@style/Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:drawableStart="@drawable/ic_overview"
+                android:drawableLeft="@drawable/ic_overview"
+                android:text="@string/label_overview" />
 
-        <TextView
-            android:id="@+id/labelDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textStyle="italic"
-            tools:text="Lorem ipsum Lorem ipsumLorem ipsumLorem ipsumLorem ipsum" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/labelDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textStyle="italic"
+                tools:text="Lorem ipsum Lorem ipsumLorem ipsumLorem ipsumLorem ipsum" />
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

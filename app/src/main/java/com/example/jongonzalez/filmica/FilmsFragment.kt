@@ -46,10 +46,13 @@ class FilmsFragment: Fragment() {
 
         FilmsRepo.discoverFilms(context!!,
                 { films ->
+                    progress?.visibility = View.INVISIBLE
+                    list.visibility = View.VISIBLE
                     adapter.setFilms(films)
 
                 }, { error ->
-
+            progress.visibility = View.INVISIBLE
+            layoutError?.visibility = View.VISIBLE
         })
     }
 

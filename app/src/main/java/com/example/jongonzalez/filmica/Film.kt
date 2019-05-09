@@ -1,5 +1,6 @@
 package com.example.jongonzalez.filmica
 
+import org.json.JSONArray
 import org.json.JSONObject
 
 data class Film(
@@ -18,9 +19,31 @@ data class Film(
                         title = getString("title"),
                         overview = getString("overview"),
                         rating = getDouble("vote_average").toFloat(),
-                        date = getString("release_date")
+                        date = getString("release_date"),
+                         genre = parseGenres(jsonFilm.getJSONArray("genre_ids"))
                         )
             }
+        }
+
+        fun parseFilms(filmsArray: JSONArray): List<Film> {
+            val films = mutableListOf<Film>()
+            for (i in 0..(filmsArray.length() - 1)) {
+                val film = Film.parseFilm(filmsArray.getJSONObject(i))
+                films.add(film)
+            }
+            return films
+        }
+
+        private fun parseGenres(genresArray: JSONArray): String {
+            val genres = mutableListOf<String>()
+
+            for (i in 0..(genresArray.length() - 1)) {
+                val genreId = genresArray.getInt(i)
+                val genre = ApiConstants.genres[genreId] ?: ""
+                genres.add(genre)
+            }
+
+            return genres.reduce { acc, genre -> "$acc | $genre" }
         }
     }
 }

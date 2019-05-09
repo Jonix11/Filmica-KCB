@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    tools:layout_width="212dp"
     android:layout_height="186dp"
     app:cardCornerRadius="8dp"
-    >
+    tools:layout_width="212dp">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -16,8 +15,8 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
             android:background="@color/colorPrimary"
+            android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
 
         <RelativeLayout
@@ -31,6 +30,7 @@
                 android:id="@+id/labelTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -46,6 +46,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_toStartOf="@+id/labelRating"
                 android:layout_toLeftOf="@id/labelRating"
+                android:maxLines="1"
                 android:textColor="@android:color/white"
                 tools:text="Genre" />
 
