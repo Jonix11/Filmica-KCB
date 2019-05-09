@@ -64,7 +64,7 @@ object FilmsRepo {
         val request = JsonObjectRequest(Request.Method.GET, url, null,
                 { response ->
                     val films = mutableListOf<Film>()
-                    val filmsArray = response.getJSONArray("result")
+                    val filmsArray = response.getJSONArray("results")
                     for (i in 0..(filmsArray.length() - 1)) {
                         val film = Film.parseFilm(filmsArray.getJSONObject(i))
                         films.add(film)
