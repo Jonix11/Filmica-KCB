@@ -8,18 +8,21 @@
     tools:layout_width="212dp">
 
     <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="186dp"
+        android:background="@color/colorPrimary"
         tools:layout_width="212dp">
 
-        <ImageView
+        <com.example.jongonzalez.filmica.view.util.FadeImageView
+            android:id="@+id/imgPoster"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
 
         <RelativeLayout
+            android:id="@+id/containerData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

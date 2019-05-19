@@ -1,4 +1,4 @@
-package com.example.jongonzalez.filmica
+package com.example.jongonzalez.filmica.data
 
 object ApiConstants {
     val genres: Map<Int, String> = mapOf(

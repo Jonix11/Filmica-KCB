@@ -1,7 +1,8 @@
-package com.example.jongonzalez.filmica
+package com.example.jongonzalez.filmica.view.detail
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.example.jongonzalez.filmica.R
 
 class DetailActivity : AppCompatActivity() {
 

@@ -1,6 +1,7 @@
-package com.example.jongonzalez.filmica
+package com.example.jongonzalez.filmica.data
 
 import android.net.Uri
+import com.example.jongonzalez.filmica.BuildConfig
 
 object ApiRoutes {
 
