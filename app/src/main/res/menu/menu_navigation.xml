@@ -7,8 +7,13 @@
         android:title="@string/title_discover" />
 
     <item
+        android:id="@+id/action_trends"
+        android:icon="@drawable/ic_trends"
+        android:title="Trends" />
+
+    <item
         android:id="@+id/action_watchlist"
         android:icon="@drawable/ic_watchlist"
-        android:title="@string/title_watchlist"/>
+        android:title="@string/title_watchlist" />
 
 </menu>

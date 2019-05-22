@@ -21,7 +21,7 @@ object ApiRoutes {
         return getUriBuilder()
                 .appendPath("trending")
                 .appendPath("movie")
-                .appendPath("day")
+                .appendPath("week")
                 .appendQueryParameter("language", language)
                 .appendQueryParameter("include_adult", "false")
                 .appendQueryParameter("include_video", "false")
