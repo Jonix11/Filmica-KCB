@@ -17,7 +17,7 @@ object ApiRoutes {
                 .toString()
     }
 
-    fun trendingMoviesUrl(language: String = "en-US"): String {
+    fun trendsMoviesUrl(language: String = "en-US"): String {
         return getUriBuilder()
                 .appendPath("trending")
                 .appendPath("movie")
