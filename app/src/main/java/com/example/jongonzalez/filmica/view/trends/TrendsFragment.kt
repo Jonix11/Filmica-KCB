@@ -11,38 +11,14 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_films.*
 
 import com.example.jongonzalez.filmica.R
-import com.example.jongonzalez.filmica.data.Film
 import com.example.jongonzalez.filmica.data.FilmsRepo
 import com.example.jongonzalez.filmica.view.films.FilmsAdapter
 import com.example.jongonzalez.filmica.view.films.FilmsFragment
+import com.example.jongonzalez.filmica.view.util.GenericFilmsFragments
 import com.example.jongonzalez.filmica.view.util.GridOffsetDecoration
 import kotlinx.android.synthetic.main.layout_error.*
 
-class TrendsFragment : Fragment() {
-
-    lateinit var listener: FilmsFragment.OnFilmClickListener
-
-    val list: RecyclerView by lazy {
-        listFilms.addItemDecoration(GridOffsetDecoration())
-        return@lazy listFilms
-    }
-    val adapter = FilmsAdapter {
-        listener.onClick(it)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        if (context is FilmsFragment.OnFilmClickListener) {
-            listener = context
-        } else {
-            throw IllegalArgumentException("The attached activity isn't implementing ${FilmsFragment.OnFilmClickListener::class.java.canonicalName}")
-        }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_trends, container, false)
-    }
+class TrendsFragment : GenericFilmsFragments() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,34 +36,13 @@ class TrendsFragment : Fragment() {
 
     private fun reload() {
         showProgress()
-        FilmsRepo.trendsFilms(context!!,
+        FilmsRepo.getTrendsFilms(context!!,
                 { films ->
                     showList()
                     adapter.setFilms(films)
 
                 }, { error ->
             showError()
-        }
-        )
+        })
     }
-
-    private fun showList() {
-        filmsProgress?.visibility = View.INVISIBLE
-        list.visibility = View.VISIBLE
-        layoutError.visibility = View.INVISIBLE
-    }
-
-    private fun showError() {
-        filmsProgress.visibility = View.INVISIBLE
-        layoutError?.visibility = View.VISIBLE
-        list.visibility = View.INVISIBLE
-    }
-
-    private fun showProgress() {
-        filmsProgress.visibility = View.VISIBLE
-        layoutError.visibility = View.INVISIBLE
-        list.visibility = View.INVISIBLE
-    }
-
-
 }

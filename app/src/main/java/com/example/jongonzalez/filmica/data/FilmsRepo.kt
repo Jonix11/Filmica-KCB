@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 object FilmsRepo {
 
     private val films: MutableList<Film> = mutableListOf() // Crea una lista vacio
+    private val trendsFilms: MutableList<Film> = mutableListOf()
 
     @Volatile
     private var db: FilmDatabase? = null
@@ -40,6 +41,12 @@ object FilmsRepo {
 
     fun findFilmById(id: String): Film? {
         return films.find {
+            return@find it.id == id
+        }
+    }
+
+    fun findTrendFilmById(id: String): Film? {
+        return trendsFilms.find {
             return@find it.id == id
         }
     }
@@ -101,16 +108,16 @@ object FilmsRepo {
                 .add(request)
     }
 
-    fun trendsFilms(context: Context, onResponse: (List<Film>) -> Unit, onError: (VolleyError) -> Unit) {
+    fun getTrendsFilms(context: Context, onResponse: (List<Film>) -> Unit, onError: (VolleyError) -> Unit) {
         val url = ApiRoutes.trendsMoviesUrl()
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
                 {response ->
                     val films = Film.parseFilms(response.getJSONArray("results"))
-                    FilmsRepo.films.clear()
-                    FilmsRepo.films.addAll(films)
+                    FilmsRepo.trendsFilms.clear()
+                    FilmsRepo.trendsFilms.addAll(films)
 
-                    onResponse.invoke(FilmsRepo.films)
+                    onResponse.invoke(FilmsRepo.trendsFilms)
                 },
                 { error ->
                     error.printStackTrace()

@@ -10,6 +10,7 @@ import com.example.jongonzalez.filmica.data.Film
 import com.example.jongonzalez.filmica.view.detail.DetailActivity
 import com.example.jongonzalez.filmica.view.detail.DetailFragment
 import com.example.jongonzalez.filmica.view.trends.TrendsFragment
+import com.example.jongonzalez.filmica.view.util.GenericFilmsFragments
 import com.example.jongonzalez.filmica.view.watchlist.WatchlistFragment
 import kotlinx.android.synthetic.main.activity_films.*
 
@@ -17,7 +18,7 @@ const val TAG_FILM = "films"
 const val TAG_WATCHLIST = "watchlist"
 const val TAG_TRENDS = "trends"
 
-class FilmsActivity : AppCompatActivity(), FilmsFragment.OnFilmClickListener {
+class FilmsActivity : AppCompatActivity(), GenericFilmsFragments.OnFilmClickListener {
 
     private lateinit var filmsFragment: FilmsFragment
     private lateinit var watchlistFragment: WatchlistFragment
@@ -94,10 +95,11 @@ class FilmsActivity : AppCompatActivity(), FilmsFragment.OnFilmClickListener {
         if (!isDetailViewAvailable()) {
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("id", film.id)
+            intent.putExtra("tag", activeFragment.tag)
             startActivity(intent)
         } else {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.container_detail, DetailFragment.newInstance(film.id))
+                    .replace(R.id.container_detail, DetailFragment.newInstance(film.id, activeFragment.tag!!))
                     .commit()
         }
     }

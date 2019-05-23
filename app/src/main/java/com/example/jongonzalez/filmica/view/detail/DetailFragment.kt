@@ -24,10 +24,11 @@ class DetailFragment : Fragment() {
     var film: Film? = null
 
     companion object {
-        fun newInstance(filmId: String): DetailFragment {
+        fun newInstance(filmId: String, tag: String): DetailFragment {
             val fragment = DetailFragment()
             val bundle = Bundle()
             bundle.putString("id", filmId)
+            bundle.putString("tag", tag)
             fragment.arguments = bundle
 
             return fragment
@@ -70,7 +71,13 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val id = arguments?.getString("id", "")
-        film = FilmsRepo.findFilmById(id!!)
+        val tag = arguments?.getString("tag")
+
+        when (tag) {
+            "films" -> film = FilmsRepo.findFilmById(id!!)
+            "trends" -> film = FilmsRepo.findTrendFilmById(id!!)
+        }
+
 
         film?.let {
             labelTitle.text = it.title
