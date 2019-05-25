@@ -29,6 +29,19 @@ object ApiRoutes {
                 .toString()
     }
 
+    fun searchMovieUrl(searchQuery: String, language: String = "en-US", sort: String = "popularity.desc"): String {
+        return getUriBuilder()
+                .appendPath("search")
+                .appendPath("movie")
+                .appendQueryParameter("query", searchQuery)
+                .appendQueryParameter("language", language)
+                .appendQueryParameter("sort_by", sort)
+                .appendQueryParameter("include_adult", "false")
+                .appendQueryParameter("include_video", "false")
+                .build()
+                .toString()
+    }
+
     private fun getUriBuilder(): Uri.Builder =
             Uri.Builder()
                     .scheme("https")

@@ -1,20 +1,24 @@
 package com.example.jongonzalez.filmica.data
 
+import android.arch.persistence.room.Query
 import android.arch.persistence.room.Room
 import android.content.Context
 import com.android.volley.Request
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.JsonRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 
 object FilmsRepo {
 
     private val films: MutableList<Film> = mutableListOf() // Crea una lista vacio
     private val trendsFilms: MutableList<Film> = mutableListOf()
+    private val searchFilms: MutableList<Film> = mutableListOf()
 
     @Volatile
     private var db: FilmDatabase? = null
@@ -138,5 +142,22 @@ object FilmsRepo {
 
         Volley.newRequestQueue(context)
                 .add(request)
+    }
+
+    fun getSearchFilms(context: Context, query: String, onResponse: (List<Film>) -> Unit, onError: (VolleyError) -> Unit) {
+        val url = ApiRoutes.searchMovieUrl(query)
+
+        val request = JsonObjectRequest(Request.Method.GET,url, null,
+                { response ->
+                    val films = Film.parseFilms(response.getJSONArray("results"))
+                    FilmsRepo.searchFilms.clear()
+                    FilmsRepo.searchFilms.addAll(films)
+
+                    onResponse.invoke(FilmsRepo.searchFilms)
+                },
+                {error ->
+                    error.printStackTrace()
+                    onError(error)
+                })
     }
 }
