@@ -9,6 +9,7 @@ import com.example.jongonzalez.filmica.R
 import com.example.jongonzalez.filmica.data.Film
 import com.example.jongonzalez.filmica.view.detail.DetailActivity
 import com.example.jongonzalez.filmica.view.detail.DetailFragment
+import com.example.jongonzalez.filmica.view.search.SearchFragment
 import com.example.jongonzalez.filmica.view.trends.TrendsFragment
 import com.example.jongonzalez.filmica.view.util.GenericFilmsFragments
 import com.example.jongonzalez.filmica.view.watchlist.WatchlistFragment
@@ -17,12 +18,14 @@ import kotlinx.android.synthetic.main.activity_films.*
 const val TAG_FILM = "films"
 const val TAG_WATCHLIST = "watchlist"
 const val TAG_TRENDS = "trends"
+const val TAG_SEARCH = "search"
 
 class FilmsActivity : AppCompatActivity(), GenericFilmsFragments.OnFilmClickListener {
 
     private lateinit var filmsFragment: FilmsFragment
     private lateinit var watchlistFragment: WatchlistFragment
     private lateinit var trendsFragment: TrendsFragment
+    private lateinit var searchFragment: SearchFragment
     private lateinit var activeFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +44,7 @@ class FilmsActivity : AppCompatActivity(), GenericFilmsFragments.OnFilmClickList
                 R.id.action_discover -> showMainFragment(filmsFragment)
                 R.id.action_watchlist -> showMainFragment(watchlistFragment)
                 R.id.action_trends -> showMainFragment(trendsFragment)
+                R.id.action_search -> showMainFragment(searchFragment)
             }
 
             true
@@ -56,14 +60,17 @@ class FilmsActivity : AppCompatActivity(), GenericFilmsFragments.OnFilmClickList
         trendsFragment = TrendsFragment()
         filmsFragment = FilmsFragment()
         watchlistFragment = WatchlistFragment()
+        searchFragment = SearchFragment()
         activeFragment = filmsFragment
 
         supportFragmentManager.beginTransaction()
                 .add(R.id.container, filmsFragment, TAG_FILM)
                 .add(R.id.container, watchlistFragment, TAG_WATCHLIST)
                 .add(R.id.container, trendsFragment, TAG_TRENDS)
+                .add(R.id.container, searchFragment, TAG_SEARCH)
                 .hide(trendsFragment)
                 .hide(watchlistFragment)
+                .hide(searchFragment)
                 .commit()
     }
 
@@ -71,15 +78,24 @@ class FilmsActivity : AppCompatActivity(), GenericFilmsFragments.OnFilmClickList
         filmsFragment = supportFragmentManager.findFragmentByTag(TAG_FILM) as FilmsFragment
         watchlistFragment = supportFragmentManager.findFragmentByTag(TAG_WATCHLIST) as WatchlistFragment
         trendsFragment = supportFragmentManager.findFragmentByTag(TAG_TRENDS) as TrendsFragment
+        searchFragment = supportFragmentManager.findFragmentByTag(TAG_SEARCH) as SearchFragment
         activeFragment =
-                if (tag == TAG_WATCHLIST)
+
+                when (tag) {
+                    TAG_WATCHLIST -> watchlistFragment
+                    TAG_FILM -> filmsFragment
+                    TAG_TRENDS -> trendsFragment
+                    TAG_SEARCH -> searchFragment
+                    else -> filmsFragment
+                }
+                /*if (tag == TAG_WATCHLIST)
                     watchlistFragment
                 else {
                     if (tag == TAG_FILM)
                         filmsFragment
                     else
                         trendsFragment
-                }
+                }*/
 
     }
 

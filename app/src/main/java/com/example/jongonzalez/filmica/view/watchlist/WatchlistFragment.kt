@@ -1,6 +1,7 @@
 package com.example.jongonzalez.filmica.view.watchlist
 
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
@@ -13,17 +14,26 @@ import com.example.jongonzalez.filmica.R
 import com.example.jongonzalez.filmica.data.Film
 import com.example.jongonzalez.filmica.data.FilmsRepo
 import com.example.jongonzalez.filmica.view.util.BaseFilmHolder
+import com.example.jongonzalez.filmica.view.util.GenericFilmsFragments
 import com.example.jongonzalez.filmica.view.util.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_watchlist.*
 
 class WatchlistFragment : Fragment() {
 
+    lateinit var listener: GenericFilmsFragments.OnFilmClickListener
+
     val adapter: WatchListAdapter = WatchListAdapter {
-        showDetail(it)
+        listener.onClick(it)
     }
 
-    private fun showDetail(film: Film) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is GenericFilmsFragments.OnFilmClickListener) {
+            listener = context
+        } else {
+            throw IllegalArgumentException("The attached activity isn't implementing ${GenericFilmsFragments.OnFilmClickListener::class.java.canonicalName}")
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

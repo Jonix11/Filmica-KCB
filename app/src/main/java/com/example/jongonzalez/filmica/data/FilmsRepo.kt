@@ -76,6 +76,18 @@ object FilmsRepo {
         }
     }
 
+    fun getFilmById(context: Context, id: String, callback: (Film) -> Unit) {
+        GlobalScope.launch(Dispatchers.Main) {
+            val async = async(Dispatchers.IO) {
+                val db = getDbInstance(context)
+                db.filmDao().getFilmById(id)
+            }
+
+            val film = async.await()
+            callback.invoke(film)
+        }
+    }
+
     fun deleteFilm(context: Context, film: Film, callback: (Film) -> Unit) {
         GlobalScope.launch(Dispatchers.Main) {
             val async = async(Dispatchers.IO) {

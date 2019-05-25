@@ -1,0 +1,62 @@
+package com.example.jongonzalez.filmica.view.search
+
+
+import android.content.Context
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
+import kotlinx.android.synthetic.main.fragment_search.*
+
+import com.example.jongonzalez.filmica.R
+import com.example.jongonzalez.filmica.view.util.GenericFilmsFragments
+import com.example.jongonzalez.filmica.view.watchlist.WatchListAdapter
+import java.lang.IllegalArgumentException
+import android.view.inputmethod.InputMethodManager
+
+
+class SearchFragment : Fragment() {
+
+    lateinit var listener: GenericFilmsFragments.OnFilmClickListener
+
+    val adapter: WatchListAdapter = WatchListAdapter {
+        listener.onClick(it)
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is GenericFilmsFragments.OnFilmClickListener) {
+            listener = context
+        } else {
+            throw IllegalArgumentException("The attached activity isn't implementing ${GenericFilmsFragments.OnFilmClickListener::class.java.canonicalName}")
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_search, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        searchList.adapter = adapter
+
+        searchEditText.setOnKeyListener { view, keyCode, event ->
+            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                Toast.makeText(context, "El texto es ${searchEditText.text}", Toast.LENGTH_LONG).show()
+                val imm: InputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0)
+                true
+            }
+            false
+        }
+    }
+}

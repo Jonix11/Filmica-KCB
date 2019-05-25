@@ -76,18 +76,14 @@ class DetailFragment : Fragment() {
         when (tag) {
             "films" -> film = FilmsRepo.findFilmById(id!!)
             "trends" -> film = FilmsRepo.findTrendFilmById(id!!)
+            "watchlist" -> FilmsRepo.getFilmById(context!!, id!!) {
+                film = it
+                setupFilmView()
+            }
         }
 
 
-        film?.let {
-            labelTitle.text = it.title
-            labelDescription.text = it.overview
-            labelGenre.text = it.genre
-            labelDate.text = it.date
-            labelRating.text = it.rating.toString()
-            loadImage(it)
-
-        }
+        setupFilmView()
 
         buttonAdd.setOnClickListener {
             film?.let {
@@ -97,6 +93,18 @@ class DetailFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun setupFilmView() {
+        film?.let {
+            labelTitle.text = it.title
+            labelDescription.text = it.overview
+            labelGenre.text = it.genre
+            labelDate.text = it.date
+            labelRating.text = it.rating.toString()
+            loadImage(it)
+
+        }
     }
 
     private fun loadImage(film: Film) {
