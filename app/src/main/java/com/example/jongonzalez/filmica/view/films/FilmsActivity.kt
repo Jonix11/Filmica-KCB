@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.FrameLayout
 import com.example.jongonzalez.filmica.R
 import com.example.jongonzalez.filmica.data.Film
-import com.example.jongonzalez.filmica.data.FilmsRepo
 import com.example.jongonzalez.filmica.view.detail.DetailActivity
 import com.example.jongonzalez.filmica.view.detail.DetailFragment
 import com.example.jongonzalez.filmica.view.detail.DetailPlaceholderFragment
@@ -37,6 +36,7 @@ class FilmsActivity : AppCompatActivity(), GenericFilmsFragments.OnFilmClickList
 
         if (savedInstanceState == null) {
             setupFragments()
+            setupDetailPlaceholder()
         } else {
             val tag = savedInstanceState.getString("active", TAG_FILM)
             restoreFragments(tag)
@@ -49,18 +49,14 @@ class FilmsActivity : AppCompatActivity(), GenericFilmsFragments.OnFilmClickList
                 R.id.action_trends -> showMainFragment(trendsFragment)
                 R.id.action_search -> showMainFragment(searchFragment)
             }
-            /*if (isDetailViewAvailable()) {
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.container_detail, DetailPlaceholderFragment())
-                        .commit()
-            }*/
+            setupDetailPlaceholder()
 
             true
         }
     }
 
-    /*override fun onResume() {
-        super.onResume()
+    override fun onPause() {
+        super.onPause()
         setupDetailPlaceholder()
     }
 
@@ -70,7 +66,7 @@ class FilmsActivity : AppCompatActivity(), GenericFilmsFragments.OnFilmClickList
                     .replace(R.id.container_detail, DetailPlaceholderFragment())
                     .commit()
         }
-    }*/
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
