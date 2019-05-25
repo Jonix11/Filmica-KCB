@@ -7,8 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.FrameLayout
 import com.example.jongonzalez.filmica.R
 import com.example.jongonzalez.filmica.data.Film
+import com.example.jongonzalez.filmica.data.FilmsRepo
 import com.example.jongonzalez.filmica.view.detail.DetailActivity
 import com.example.jongonzalez.filmica.view.detail.DetailFragment
+import com.example.jongonzalez.filmica.view.detail.DetailPlaceholderFragment
 import com.example.jongonzalez.filmica.view.search.SearchFragment
 import com.example.jongonzalez.filmica.view.trends.TrendsFragment
 import com.example.jongonzalez.filmica.view.util.GenericFilmsFragments
@@ -26,6 +28,7 @@ class FilmsActivity : AppCompatActivity(), GenericFilmsFragments.OnFilmClickList
     private lateinit var watchlistFragment: WatchlistFragment
     private lateinit var trendsFragment: TrendsFragment
     private lateinit var searchFragment: SearchFragment
+
     private lateinit var activeFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,10 +49,28 @@ class FilmsActivity : AppCompatActivity(), GenericFilmsFragments.OnFilmClickList
                 R.id.action_trends -> showMainFragment(trendsFragment)
                 R.id.action_search -> showMainFragment(searchFragment)
             }
+            /*if (isDetailViewAvailable()) {
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.container_detail, DetailPlaceholderFragment())
+                        .commit()
+            }*/
 
             true
         }
     }
+
+    /*override fun onResume() {
+        super.onResume()
+        setupDetailPlaceholder()
+    }
+
+    private fun setupDetailPlaceholder() {
+        if (isDetailViewAvailable()) {
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.container_detail, DetailPlaceholderFragment())
+                    .commit()
+        }
+    }*/
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

@@ -3,12 +3,14 @@ package com.example.jongonzalez.filmica.view.watchlist
 
 import android.content.Context
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import com.example.jongonzalez.filmica.R
 import com.example.jongonzalez.filmica.data.Film
@@ -64,6 +66,16 @@ class WatchlistFragment : Fragment() {
     private fun deleteFilm(film: Film, position: Int) {
         FilmsRepo.deleteFilm(context!!, film) {
             adapter.deleteFilm(position)
+            Snackbar.make(view!!, "Film deleted", Snackbar.LENGTH_LONG)
+                    .setAction("UNDO") {
+                        FilmsRepo.saveFilm(context!!, film) {
+                            FilmsRepo.getFilms(context!!) {
+                                adapter.setFilms(it)
+                                Toast.makeText(context, "Undone action", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+                    .show()
         }
     }
 
@@ -74,6 +86,10 @@ class WatchlistFragment : Fragment() {
             adapter.setFilms(it)
         }
     }
+
+    /*interface onSwipeListener {
+        fun onSwipe()
+    }*/
 
 
 }

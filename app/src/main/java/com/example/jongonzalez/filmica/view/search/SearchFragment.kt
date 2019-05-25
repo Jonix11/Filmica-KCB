@@ -56,10 +56,16 @@ class SearchFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        if (searchEditText.text.isNotEmpty()) {
+            reload()
+        }
+
         searchEditText.setOnKeyListener { view, keyCode, event ->
             if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
                 reload()
+                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view?.windowToken, 0)
 
                 true
             }
@@ -96,8 +102,8 @@ class SearchFragment : Fragment() {
         }
 
         // hide the keyboard
-        val imm: InputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0)
+        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
 
     }
 

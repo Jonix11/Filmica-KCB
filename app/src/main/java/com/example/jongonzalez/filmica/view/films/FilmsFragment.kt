@@ -38,7 +38,7 @@ class FilmsFragment: GenericFilmsFragments() {
                     showList()
                     adapter.setFilms(films)
 
-                }, {    ºerror ->
+                }, { error ->
             showError()
         }
         )
