@@ -55,6 +55,12 @@ object FilmsRepo {
         }
     }
 
+    fun findSearchFilmById(id: String): Film? {
+        return searchFilms.find {
+            return@find it.id == id
+        }
+    }
+
     fun saveFilm(context: Context, film: Film, callback: (Film) -> Unit) {
         GlobalScope.launch(Dispatchers.Main) {
             val async = async(Dispatchers.IO) {
@@ -147,8 +153,8 @@ object FilmsRepo {
     fun getSearchFilms(context: Context, query: String, onResponse: (List<Film>) -> Unit, onError: (VolleyError) -> Unit) {
         val url = ApiRoutes.searchMovieUrl(query)
 
-        val request = JsonObjectRequest(Request.Method.GET,url, null,
-                { response ->
+        val request = JsonObjectRequest(Request.Method.GET, url, null,
+                {response ->
                     val films = Film.parseFilms(response.getJSONArray("results"))
                     FilmsRepo.searchFilms.clear()
                     FilmsRepo.searchFilms.addAll(films)
@@ -159,5 +165,7 @@ object FilmsRepo {
                     error.printStackTrace()
                     onError(error)
                 })
+        Volley.newRequestQueue(context)
+                .add(request)
     }
 }

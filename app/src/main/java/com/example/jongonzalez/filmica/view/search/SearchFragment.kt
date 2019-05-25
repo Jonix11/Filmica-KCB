@@ -19,6 +19,9 @@ import com.example.jongonzalez.filmica.view.util.GenericFilmsFragments
 import com.example.jongonzalez.filmica.view.watchlist.WatchListAdapter
 import java.lang.IllegalArgumentException
 import android.view.inputmethod.InputMethodManager
+import com.example.jongonzalez.filmica.data.Film
+import com.example.jongonzalez.filmica.data.FilmsRepo
+import com.example.jongonzalez.filmica.view.films.FilmsAdapter
 
 
 class SearchFragment : Fragment() {
@@ -48,15 +51,71 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         searchList.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         searchEditText.setOnKeyListener { view, keyCode, event ->
             if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                Toast.makeText(context, "El texto es ${searchEditText.text}", Toast.LENGTH_LONG).show()
-                val imm: InputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0)
+
+                reload()
+
                 true
             }
             false
         }
+    }
+
+    private fun reload() {
+        if (searchEditText.text.length < 3) {
+            Toast.makeText(context, "The search query has to have at least three characters", Toast.LENGTH_LONG).show()
+        } else {
+            showProgress()
+            FilmsRepo.getSearchFilms(context!!, searchEditText.text.toString(),
+                    { films ->
+                        if (films.count() > 0) {
+                            if (films.count() > 10) {
+                                val list: MutableList<Film> = mutableListOf()
+                                for (i in 0..9) {
+                                    list.add(films[i])
+                                }
+                                adapter.setFilms(list)
+                            } else {
+                                adapter.setFilms(films)
+                            }
+                            showList()
+                        } else {
+                            showNoSearch()
+                        }
+                    },
+                    { error ->
+
+                    })
+
+        }
+
+        // hide the keyboard
+        val imm: InputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0)
+
+    }
+
+    private fun showList() {
+        searchProgress?.visibility = View.INVISIBLE
+        searchList.visibility = View.VISIBLE
+        layoutNoSearch.visibility = View.INVISIBLE
+    }
+
+    private fun showNoSearch() {
+        searchProgress.visibility = View.INVISIBLE
+        layoutNoSearch?.visibility = View.VISIBLE
+        searchList.visibility = View.INVISIBLE
+    }
+
+    private fun showProgress() {
+        searchProgress.visibility = View.VISIBLE
+        layoutNoSearch.visibility = View.INVISIBLE
+        searchList.visibility = View.INVISIBLE
     }
 }

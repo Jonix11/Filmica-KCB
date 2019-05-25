@@ -80,6 +80,7 @@ class DetailFragment : Fragment() {
                 film = it
                 setupFilmView()
             }
+            "search" -> film = FilmsRepo.findSearchFilmById(id!!)
         }
 
 
@@ -88,7 +89,7 @@ class DetailFragment : Fragment() {
         buttonAdd.setOnClickListener {
             film?.let {
                 FilmsRepo.saveFilm(context!!, it) {
-                    Toast.makeText(context, "Añadido al watchlist", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Added to watchlist", Toast.LENGTH_LONG).show()
                 }
             }
         }
