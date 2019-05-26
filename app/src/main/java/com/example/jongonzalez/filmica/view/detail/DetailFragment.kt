@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_watchlist.*
 import kotlinx.android.synthetic.main.item_film.view.*
 
-class DetailFragment : Fragment() {
+class DetailFragment: Fragment() {
 
     var film: Film? = null
 

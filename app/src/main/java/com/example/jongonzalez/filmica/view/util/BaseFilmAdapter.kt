@@ -39,6 +39,12 @@ open class BaseFilmAdapter<VH: BaseFilmHolder>(
         notifyDataSetChanged()
     }
 
+    fun setFilmsPaged(films: List<Film>) {
+        this.list.clear()
+        this.list.addAll(films)
+        notifyItemRangeInserted(itemCount, films.size)
+    }
+
     fun deleteFilm(position: Int) {
         this.list.removeAt(position)
         notifyItemRemoved(position)

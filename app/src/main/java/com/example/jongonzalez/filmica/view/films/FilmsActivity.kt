@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.FrameLayout
 import com.example.jongonzalez.filmica.R
 import com.example.jongonzalez.filmica.data.Film
@@ -45,7 +46,11 @@ class FilmsActivity : AppCompatActivity(), GenericFilmsFragments.OnFilmClickList
         navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.action_discover -> showMainFragment(filmsFragment)
-                R.id.action_watchlist -> showMainFragment(watchlistFragment)
+                R.id.action_watchlist -> { if (isDetailViewAvailable()) {
+                    supportFragmentManager.beginTransaction().detach(watchlistFragment).commit()
+                    supportFragmentManager.beginTransaction().attach(watchlistFragment).commit()
+                }
+                    showMainFragment(watchlistFragment) }
                 R.id.action_trends -> showMainFragment(trendsFragment)
                 R.id.action_search -> showMainFragment(searchFragment)
             }
@@ -53,6 +58,11 @@ class FilmsActivity : AppCompatActivity(), GenericFilmsFragments.OnFilmClickList
 
             true
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setupDetailPlaceholder()
     }
 
     override fun onPause() {
@@ -105,14 +115,14 @@ class FilmsActivity : AppCompatActivity(), GenericFilmsFragments.OnFilmClickList
                     TAG_SEARCH -> searchFragment
                     else -> filmsFragment
                 }
-                /*if (tag == TAG_WATCHLIST)
-                    watchlistFragment
-                else {
-                    if (tag == TAG_FILM)
-                        filmsFragment
-                    else
-                        trendsFragment
-                }*/
+        /*if (tag == TAG_WATCHLIST)
+            watchlistFragment
+        else {
+            if (tag == TAG_FILM)
+                filmsFragment
+            else
+                trendsFragment
+        }*/
 
     }
 

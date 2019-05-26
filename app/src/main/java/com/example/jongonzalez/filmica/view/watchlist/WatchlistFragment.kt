@@ -87,9 +87,4 @@ class WatchlistFragment : Fragment() {
         }
     }
 
-    /*interface onSwipeListener {
-        fun onSwipe()
-    }*/
-
-
 }

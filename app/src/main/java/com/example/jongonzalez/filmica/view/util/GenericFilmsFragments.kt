@@ -9,10 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.jongonzalez.filmica.R
 import com.example.jongonzalez.filmica.data.Film
-import com.example.jongonzalez.filmica.data.FilmsRepo
 import com.example.jongonzalez.filmica.view.films.FilmsAdapter
 import kotlinx.android.synthetic.main.fragment_films.*
-import kotlinx.android.synthetic.main.layout_error.*
 
 open class GenericFilmsFragments: Fragment() {
     lateinit var listener: OnFilmClickListener

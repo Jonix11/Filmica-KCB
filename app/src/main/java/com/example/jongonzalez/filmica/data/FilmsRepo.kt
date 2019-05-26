@@ -110,13 +110,22 @@ object FilmsRepo {
         }
     }
 
-    fun discoverFilms(context: Context, onResponse: (List<Film>) -> Unit, onError: (VolleyError) -> Unit) {
-        val url = ApiRoutes.discoverMoviesUrl()
+    fun getDiscoverFilmsList(): List<Film> {
+        return FilmsRepo.films
+    }
+
+    fun getTrendsFilmsList(): List<Film> {
+        return FilmsRepo.trendsFilms
+    }
+
+    fun discoverFilms(page: Int, context: Context, onResponse: (List<Film>) -> Unit, onError: (VolleyError) -> Unit) {
+        val url = ApiRoutes.discoverMoviesUrl(page)
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
                 { response ->
                     val films = Film.parseFilms(response.getJSONArray("results"))
-                    FilmsRepo.films.clear()
+                    if (page == 1) FilmsRepo.films.clear()
+
                     FilmsRepo.films.addAll(films)
 
                     onResponse.invoke(FilmsRepo.films)
@@ -130,13 +139,14 @@ object FilmsRepo {
                 .add(request)
     }
 
-    fun getTrendsFilms(context: Context, onResponse: (List<Film>) -> Unit, onError: (VolleyError) -> Unit) {
-        val url = ApiRoutes.trendsMoviesUrl()
+    fun getTrendsFilms(page: Int = 1, context: Context, onResponse: (List<Film>) -> Unit, onError: (VolleyError) -> Unit) {
+        val url = ApiRoutes.trendsMoviesUrl(page)
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
                 {response ->
                     val films = Film.parseFilms(response.getJSONArray("results"))
-                    FilmsRepo.trendsFilms.clear()
+                    if (page == 1) FilmsRepo.trendsFilms.clear()
+
                     FilmsRepo.trendsFilms.addAll(films)
 
                     onResponse.invoke(FilmsRepo.trendsFilms)
